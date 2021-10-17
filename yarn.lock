@@ -1300,10 +1300,10 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-openvscode-server-test@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/openvscode-server-test/-/openvscode-server-test-0.1.1.tgz#0f2ccc625673b586f8152de246203c9c52f04801"
-  integrity sha512-79cUjFUMRNdF0dLUoSI74BW9b8cgFQVBIAmC0Agbc/Z+OvObChWzChYDi27jnVhg9s0c9fH/oPgKNJXTlsdqVQ==
+openvscode-server-test@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/openvscode-server-test/-/openvscode-server-test-0.1.6.tgz#43e21b6f63e6934bf1737ed608168ceed94e3f90"
+  integrity sha512-poAum22636wIgCVceCHbedvCg71loHRJStJzReiclQ7Eng2ygeptNnA70ORNKrPQN4u8kvi7JCRl5UP5Tl8H8A==
   dependencies:
     "@types/node" "14.x"
     "@types/optimist" "0.0.29"
