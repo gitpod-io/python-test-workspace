@@ -1,0 +1,62 @@
+import * as assert from 'assert';
+import * as cp from 'child_process';
+import * as path from 'path';
+
+import * as vscode from 'vscode';
+// import * as myExtension from '../../extension';
+
+suite('Smoke Test: LSP and Debugging', () => {
+	suiteSetup(async function () {
+		// console.log(`root ${vscode.env.appRoot}`);
+		const ext = vscode.extensions.getExtension<{ ready: Promise<void> }>('ms-python.python')!;
+		const api = await ext.activate();
+		await api.ready;
+	});
+
+	test('python test', async () => {
+		const wsFolder = vscode.workspace.workspaceFolders![0].uri!;
+		let uri = vscode.Uri.joinPath(wsFolder, 'file.py');
+		await vscode.commands.executeCommand('vscode.open', uri);
+		const active = vscode.window.activeTextEditor;
+
+		// const ext = vscode.extensions.getExtension<unknown>('ms-python.python');
+		// await ext?.activate();
+		// await new Promise((r, e) => setTimeout(r, 1000));
+
+		const docUri = active!.document.uri;
+		const symbols = await vscode.commands.executeCommand<vscode.SymbolInformation[]>('vscode.executeDocumentSymbolProvider', docUri);
+		assert.strictEqual(symbols?.length, 5);
+		// console.log(`python symbols:`);
+		// console.log(symbols?.length);
+
+		let hovers = await vscode.commands.executeCommand<vscode.Hover[]>('vscode.executeHoverProvider', docUri, new vscode.Position(36, 10));
+		assert.strictEqual(hovers?.length, 1);
+		// console.log(hovers?.length);
+	});
+
+	test('python debug test', async () => {
+		const wsFolder = vscode.workspace.workspaceFolders![0].uri!;
+		let uri = vscode.Uri.joinPath(wsFolder, 'file.py');
+		vscode.debug.addBreakpoints([new vscode.SourceBreakpoint(new vscode.Location(uri, new vscode.Position(32, 0)), true)]);
+
+		const toDispose: vscode.Disposable[] = [];
+		let breakpointHit: () => void;
+		const breakpointHitPromise = new Promise<void>(resolve => breakpointHit = resolve);
+		toDispose.push(vscode.debug.registerDebugAdapterTrackerFactory('*', {
+			createDebugAdapterTracker: () => ({
+				onDidSendMessage: m => {
+					if (m.event === 'stopped') {
+						breakpointHit();
+					}
+				}
+			})
+		}));
+
+		const success = await vscode.debug.startDebugging(vscode.workspace.workspaceFolders![0], 'Python: Current File');
+		assert.strictEqual(success, true);
+
+		await breakpointHitPromise;
+
+		await vscode.commands.executeCommand('workbench.action.debug.stop');
+	});
+});
