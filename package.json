@@ -1,6 +1,6 @@
 {
-	"name": "gp-python-test",
-	"displayName": "gp-python-test",
+	"name": "python-test-workspace",
+	"displayName": "python-test-workspace",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.32.0"
