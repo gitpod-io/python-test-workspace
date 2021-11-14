@@ -3,6 +3,7 @@ import * as cp from 'child_process';
 import * as path from 'path';
 
 import * as vscode from 'vscode';
+import { closeAllWindows } from './common';
 // import * as myExtension from '../../extension';
 
 suite('Smoke Test: LSP and Debugging', () => {
@@ -12,6 +13,9 @@ suite('Smoke Test: LSP and Debugging', () => {
 		const api = await ext.activate();
 		await api.ready;
 	});
+
+	suiteTeardown(closeAllWindows);
+	teardown(closeAllWindows);
 
 	test('python test', async () => {
 		const wsFolder = vscode.workspace.workspaceFolders![0].uri!;

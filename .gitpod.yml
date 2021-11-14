@@ -1,3 +1,7 @@
+tasks:
+  - name: Install ipykernel
+  - init: python3 -m pip install --upgrade ipykernel 
 vscode:
   extensions:
     - ms-python.python
+    - ms-toolsai.jupyter
