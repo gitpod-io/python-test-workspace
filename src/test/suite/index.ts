@@ -4,7 +4,8 @@ import * as glob from 'glob';
 
 export function run(): Promise<void> {
 	const mocha = new Mocha({
-		ui: 'tdd'
+		ui: 'tdd',
+		timeout: 30000
 	});
 	mocha.useColors(true);
 
