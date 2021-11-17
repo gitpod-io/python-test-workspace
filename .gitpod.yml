@@ -2,7 +2,7 @@ tasks:
   - name: Init workspace
     init: |
       python3 -m pip install --upgrade ipykernel
-      sudo npx playwright install-deps
+      npx playwright install-deps
       yarn
 vscode:
   extensions:
