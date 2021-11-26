@@ -4,6 +4,7 @@ tasks:
       python3 -m pip install --upgrade ipykernel
       npx playwright install-deps
       yarn
+      npx playwright install
 vscode:
   extensions:
     - ms-python.python
