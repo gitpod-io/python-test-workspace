@@ -5,6 +5,7 @@ tasks:
       npx playwright install-deps
       yarn
       npx playwright install
+      touch __init_task_done__
 vscode:
   extensions:
     - ms-python.python
