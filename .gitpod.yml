@@ -3,8 +3,9 @@ tasks:
     init: |
       python3 -m pip install --upgrade ipykernel
       npx playwright install-deps
-      yarn
       npx playwright install
+      yarn
+      yarn compile
       touch __init_task_done__
 vscode:
   extensions:
