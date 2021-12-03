@@ -29,7 +29,7 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"dependencies": {
-        "openvscode-server-test": "^0.1.10"
+        "openvscode-server-test": "^0.1.11"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
