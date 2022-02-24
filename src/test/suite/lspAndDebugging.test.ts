@@ -3,15 +3,21 @@ import * as cp from 'child_process';
 import * as path from 'path';
 
 import * as vscode from 'vscode';
-import { closeAllWindows } from './common';
+import { closeAllWindows, retry } from './common';
 // import * as myExtension from '../../extension';
 
 suite('Smoke Test: LSP and Debugging', () => {
 	suiteSetup(async function () {
-		// console.log(`root ${vscode.env.appRoot}`);
-		const ext = vscode.extensions.getExtension<{ ready: Promise<void> }>('ms-python.python')!;
-		const api = await ext.activate();
-		await api.ready;
+		// Installing initial extensions is async so let's retry a few times so they all finished installing
+		const pyExt = await retry(async () => {
+			const ext = vscode.extensions.getExtension<{ ready: Promise<void> }>('ms-python.python');
+			if (ext) {
+				return ext;
+			}
+			throw new Error("Extension 'ms-python.python' not installed");
+		}, 1000, 10);
+		const pyApi = await pyExt.activate();
+		await pyApi.ready;
 	});
 
 	suiteTeardown(closeAllWindows);
@@ -22,10 +28,6 @@ suite('Smoke Test: LSP and Debugging', () => {
 		let uri = vscode.Uri.joinPath(wsFolder, 'file.py');
 		await vscode.commands.executeCommand('vscode.open', uri);
 		const active = vscode.window.activeTextEditor;
-
-		// const ext = vscode.extensions.getExtension<unknown>('ms-python.python');
-		// await ext?.activate();
-		// await new Promise((r, e) => setTimeout(r, 1000));
 
 		const docUri = active!.document.uri;
 		const symbols = await vscode.commands.executeCommand<vscode.SymbolInformation[]>('vscode.executeDocumentSymbolProvider', docUri);

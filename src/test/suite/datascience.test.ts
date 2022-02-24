@@ -4,16 +4,29 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import * as vscode from 'vscode';
-import { closeAllWindows } from './common';
+import { closeAllWindows, retry } from './common';
 // import * as myExtension from '../../extension';
 
 suite('Smoke Test: notebook', () => {
 	suiteSetup(async function () {
-		const pyExt = vscode.extensions.getExtension<{ ready: Promise<void> }>('ms-python.python')!;
+		// Installing initial extensions is async so let's retry a few times so they all finished installing
+		const pyExt = await retry(async () => {
+			const ext = vscode.extensions.getExtension<{ ready: Promise<void> }>('ms-python.python');
+			if (ext) {
+				return ext;
+			}
+			throw new Error("Extension 'ms-python.python' not installed");
+		}, 1000, 10);
 		const pyApi = await pyExt.activate();
 		await pyApi.ready;
 
-		const juExt = vscode.extensions.getExtension<{ ready: Promise<void> }>('ms-toolsai.jupyter')!;
+		const juExt = await retry(async () => {
+			const ext = vscode.extensions.getExtension<{ ready: Promise<void> }>('ms-toolsai.jupyter');
+			if (ext) {
+				return ext;
+			}
+			throw new Error("Extension 'ms-toolsai.jupyter' not installed");
+		}, 1000, 10);
 		const juApi = await juExt.activate();
 		await juApi.ready;
 	});
