@@ -30,7 +30,7 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"dependencies": {
-        "gp-code-server-test": "^0.1.15"
+        "gp-code-server-test": "^0.1.16"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
