@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import { closeAllWindows, retry } from './common';
 // import * as myExtension from '../../extension';
 
-suite('Smoke Test: notebook', () => {
+suite.skip('Smoke Test: notebook', () => {
 	suiteSetup(async function () {
 		// Installing initial extensions is async so let's retry a few times so they all finished installing
 		const pyExt = await retry(async () => {
