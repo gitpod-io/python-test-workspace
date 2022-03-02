@@ -2,10 +2,10 @@ tasks:
   - name: Init workspace
     init: |
       python3 -m pip install --upgrade ipykernel
-      npm_config_yes=true npx playwright install-deps
-      npm_config_yes=true npx playwright install
       yarn
       yarn compile
+      npm_config_yes=true npx playwright install-deps
+      npm_config_yes=true npx playwright install
       touch __init_task_done__
 vscode:
   extensions:
