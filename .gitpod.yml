@@ -1,8 +1,9 @@
-image:
-  file: .gitpod.Dockerfile
+image: jeanp413/python-test-workspace
 tasks:
   - name: Init workspace
     init: |
+      mkdir node_modules
+      cp -r /home/gitpod/.cache/workspace/* ./node_modules
       yarn
       yarn compile
     command: |
