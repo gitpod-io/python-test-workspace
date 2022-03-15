@@ -1,12 +1,15 @@
+image:
+  file: .gitpod.Dockerfile
 tasks:
   - name: Init workspace
     init: |
-      python3 -m pip install --upgrade ipykernel
       yarn
       yarn compile
-      npm_config_yes=true npx playwright install-deps
-      npm_config_yes=true npx playwright install
+    command: 
       touch __init_task_done__
+github:
+  prebuilds:
+    master: true
 vscode:
   extensions:
     - ms-python.python
