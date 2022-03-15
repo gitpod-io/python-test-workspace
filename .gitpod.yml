@@ -8,9 +8,6 @@ tasks:
       yarn compile
     command: |
       touch __init_task_done__
-github:
-  prebuilds:
-    master: true
 vscode:
   extensions:
     - ms-python.python
