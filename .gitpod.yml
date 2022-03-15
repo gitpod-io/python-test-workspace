@@ -5,7 +5,7 @@ tasks:
     init: |
       yarn
       yarn compile
-    command: 
+    command: |
       touch __init_task_done__
 github:
   prebuilds:
