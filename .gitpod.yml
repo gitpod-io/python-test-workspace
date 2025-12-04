@@ -4,7 +4,7 @@ tasks:
     init: |
       mkdir node_modules
       cp -r /home/gitpod/.cache/workspace/* ./node_modules
-      yarn
+      yarn --ignore-scripts
       yarn compile
     command: |
       touch __init_task_done__
