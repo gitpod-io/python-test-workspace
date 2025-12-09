@@ -3,11 +3,12 @@ FROM gitpod/workspace-full
 # Disable npm lifecycle scripts and npx for security
 RUN npm config set ignore-scripts true --location=user && \
     echo 'ignore-scripts true' >> ~/.yarnrc && \
-    rm -f /usr/bin/npx /usr/local/bin/npx && \
-    echo '#!/bin/sh' > /usr/local/bin/npx && \
-    echo 'echo "npx is disabled for security reasons. Use explicit package installation instead." >&2' >> /usr/local/bin/npx && \
-    echo 'exit 1' >> /usr/local/bin/npx && \
-    chmod +x /usr/local/bin/npx
+    NPX_PATH=$(which npx) && \
+    rm -f "$NPX_PATH" && \
+    echo '#!/bin/sh' > "$NPX_PATH" && \
+    echo 'echo "npx is disabled for security reasons. Use explicit package installation instead." >&2' >> "$NPX_PATH" && \
+    echo 'exit 1' >> "$NPX_PATH" && \
+    chmod +x "$NPX_PATH"
 
 # Create a new image and publish it to dockerhub, then use it directly in .gitpod.yml
 # as prebuils for integration test makes no sense because a new environment is created
